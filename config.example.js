@@ -2,7 +2,7 @@
 // config.js is gitignored and must never be committed.
 
 const USERS = [
-  { name: "Kiren",      pin: "0000" },
-  { name: "Sean",       pin: "0000" },
-  { name: "Sasha & Matt", pin: "0000" },
+  { name: "Kiren & Sean",      pin: "0000" },
+  { name: "The Thompsons",     pin: "0000" },
+  { name: "Granny & Grandpa",  pin: "0000" },
 ];
