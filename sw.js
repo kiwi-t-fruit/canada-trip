@@ -1,4 +1,4 @@
-const CACHE_NAME = 'canada-trip-v1';
+const CACHE_NAME = 'canada-trip-v2';
 const STATIC_ASSETS = [
   '/canada-trip/',
   '/canada-trip/index.html',
