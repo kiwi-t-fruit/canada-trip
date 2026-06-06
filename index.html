@@ -641,7 +641,12 @@ const CAT_EMOJI = {
   'Restaurant/Café':'🍽️','Bar':'🍺','Supermarket/Grocery':'🛒','Pharmacy':'💊',
   'Petrol Station':'⛽','Laundromat':'🫧','ATM/Bank':'🏦','Convenience Store':'🏪','Other':'📌'
 };
-const USER_AVATARS = { 'Kiren & Sean':'💑', 'The Thompsons':'👨‍👩‍👧‍👦', 'Granny & Grandpa':'👴' };
+// Names and avatars live here (not in config.js) so changes only need a code commit.
+const USER_PROFILES = [
+  { name: 'Kiren & Sean',     avatar: '💑' },
+  { name: 'The Thompsons',    avatar: '👨‍👩‍👧‍👦' },
+  { name: 'Granny & Grandpa', avatar: '👴' },
+];
 
 // ═══════════════════════════════════════════════════════
 //  FIREBASE INIT
@@ -759,20 +764,20 @@ function initAuth() {
       '⚠️ config.js not found.<br>See README to set up your PIN config.</p>';
     return;
   }
-  // Populate profile buttons
+  // Populate profile buttons from USER_PROFILES (names/avatars in code, not secret)
   const grid = document.getElementById('profile-picker');
   grid.innerHTML = '';
-  USERS.forEach(u => {
+  USER_PROFILES.forEach(p => {
     const btn = document.createElement('button');
     btn.className = 'profile-btn';
-    btn.innerHTML = `<div class="avatar">${USER_AVATARS[u.name] || '👤'}</div>${u.name}`;
-    btn.onclick = () => showPIN(u);
+    btn.innerHTML = `<div class="avatar">${p.avatar}</div>${p.name}`;
+    btn.onclick = () => showPIN(p.name);
     grid.appendChild(btn);
   });
 
   // Check saved session
   const saved = localStorage.getItem('canada-trip-user');
-  if (saved && USERS.find(u => u.name === saved)) {
+  if (saved && USER_PROFILES.find(p => p.name === saved)) {
     loginAs(saved);
   }
 }
@@ -785,10 +790,11 @@ function showProfilePicker() {
   updateDots();
 }
 
-function showPIN(user) {
-  pinTarget = user;
+function showPIN(name) {
+  // Look up the PIN record from config.js by name
+  pinTarget = (USERS || []).find(u => u.name === name) || { name, pin: null };
   pinBuffer = '';
-  document.getElementById('pin-user-name').textContent = user.name;
+  document.getElementById('pin-user-name').textContent = name;
   document.getElementById('pin-error').textContent = '';
   document.getElementById('profile-picker').classList.add('hidden');
   document.getElementById('pin-panel').classList.remove('hidden');
