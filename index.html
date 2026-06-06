@@ -753,6 +753,12 @@ let pinBuffer = '';
 let pinTarget = null;
 
 function initAuth() {
+  if (typeof USERS === 'undefined' || !USERS.length) {
+    document.getElementById('profile-picker').innerHTML =
+      '<p style="color:rgba(255,255,255,.8);font-size:14px;text-align:center;grid-column:1/-1">' +
+      '⚠️ config.js not found.<br>See README to set up your PIN config.</p>';
+    return;
+  }
   // Populate profile buttons
   const grid = document.getElementById('profile-picker');
   grid.innerHTML = '';
